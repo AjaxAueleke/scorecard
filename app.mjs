@@ -16,7 +16,8 @@ const io = new Server(server, {
     credentials: true,
   },
 });
-const uri = `mongodb+srv://admin:admin@cluster0.uj1ij.mongodb.net/scorecard`;
+const uri = process.env.URI;
+const port = process.env.port || 5000;
 const __dirname = path.resolve();
 const scoreSchema = new Mongoose.Schema({
   side1: {
@@ -86,7 +87,7 @@ io.on("connection", (stream) => {
   stream.on("disconnect", () => console.log("Diconnected"));
 });
 app.get("/", (req,res) => {
-  res.sendFile(__dirname + '/web/build')
+  res.sendFile(__dirname,'/web/build')
 })
 app.get("/score", (req, res, next) => {
   res.status(200).json({
@@ -200,12 +201,11 @@ app.post("/score", (req, res, next) => {
       console.error(err.message);
     });
 });
-app.use((req,res)=> {
-  res.sendFile(__dirname + "/web/build")
-})
+app.use("/", express.static(path.join(__dirname, "web/build")));
+
 Mongoose.connect(uri, { useUnifiedTopology: true })
   .then(() => {
-    server.listen(5000, () => {
+    server.listen(port, () => {
       console.log("listening on *:5000");
     });
     console.log("Database connected");
