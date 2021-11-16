@@ -200,6 +200,9 @@ app.post("/score", (req, res, next) => {
       console.error(err.message);
     });
 });
+app.use((req,res)=> {
+  res.sendFile(__dirname + "/web/build")
+})
 Mongoose.connect(uri, { useUnifiedTopology: true })
   .then(() => {
     server.listen(5000, () => {
