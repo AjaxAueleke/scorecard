@@ -16,7 +16,7 @@ const io = new Server(server, {
     credentials: true,
   },
 });
-const uri = process.env.URI;
+const uri = process.env.URI || "mongodb+srv://admin:admin@cluster0.uj1ij.mongodb.net/score?retryWrites=true&w=majority";
 const port = process.env.PORT || 5000;
 const __dirname = path.resolve();
 const scoreSchema = new Mongoose.Schema({
@@ -102,7 +102,6 @@ app.get("/score", (req, res, next) => {
 });
 app.post("/score", (req, res, next) => {
   const data = req.body;
-  console.log(data);
   scores.side1 = {
     name: req.body.side1.name ? req.body.side1.name : scores.side1.name,
     batting: req.body.side1.batting
@@ -209,7 +208,6 @@ Mongoose.connect(uri, { useUnifiedTopology: true })
       console.log("listening on *:5000");
     });
     console.log("Database connected");
-    console.log(scores);
     scores.save((err) => {
       if (err) console.error(err);
     });

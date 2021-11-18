@@ -4,16 +4,14 @@ import styles from "./Card.module.css";
 import { io } from "socket.io-client";
 
 const Card = (props) => {
-  const socket = io();
-  socket.on("chat_message", (msg) => {
-    console.log(msg);
-    setIsChanged(!isChanged);
-  });
   useEffect(() => {
-    socket.on("chat_message", () => {
-      console.log("Hello");
-    });
-  }, [socket]);
+   const socket = io("http://localhost:5000") 
+   socket.on("chat_message", (msg) => {
+     console.log(msg);
+     setIsChanged(prevState =>!prevState);
+   });
+  },[]);
+
   const [isChanged, setIsChanged] = useState();
   const [stats, setStats] = useState({
     side1: {
@@ -37,7 +35,7 @@ const Card = (props) => {
   });
   useEffect(() => {
     axios
-      .get("/score")
+      .get("http://localhost:5000/score")
       .then((res) => {
         console.log(res);
         setStats(res.data);
@@ -56,21 +54,21 @@ const Card = (props) => {
       <div className={styles.batting}>
         <h2>Batting Side</h2>
         <p>
-          {stats.runs}/{stats.runs}
+          SCORE : {stats.runs}/{stats.wickets}
         </p>
-        <p>{stats.overs}</p>
+        <p>OVERS : {stats.overs}</p>
         <div className={styles.batters}>
           <p>{stats.batting.bat1.name}</p>
-          <span>{stats.batting.bat1.score}</span>
+          <span>RUNS :{stats.batting.bat1.score}</span>
 
           <p>{stats.batting.bat2.name}</p>
-          <span>{stats.batting.bat2.score}</span>
+          <span>RUNS : {stats.batting.bat2.score}</span>
         </div>
       </div>
       <div className={styles.bowling}>
         <h2>Bowling Side</h2>
-        <p>{stats.bowling.currBowler}</p>
-        <span>{stats.bowling.oversBowled}</span>
+        <p>BOWLING : {stats.bowling.currBowler}</p>
+        <span> Overs : {stats.bowling.oversBowled}/ Wickets : {stats.bowling.wicketsTaken}</span>
       </div>
     </div>
   );

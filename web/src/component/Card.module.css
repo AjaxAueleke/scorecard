@@ -5,4 +5,12 @@
     padding : 10px;
     margin : auto;
     text-align: center;
+    overflow : hidden;
+}
+
+
+@media (max-width : 240px ) {
+    .container h1 {
+        font-size : 1.5rem;
+    }
 }
