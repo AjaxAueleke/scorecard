@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 
 const Card = (props) => {
   useEffect(() => {
-   const socket = io("http://localhost:5000") 
+   const socket = io() 
    socket.on("chat_message", (msg) => {
      console.log(msg);
      setIsChanged(prevState =>!prevState);
@@ -35,7 +35,7 @@ const Card = (props) => {
   });
   useEffect(() => {
     axios
-      .get("http://localhost:5000/score")
+      .get("/score")
       .then((res) => {
         console.log(res);
         setStats(res.data);

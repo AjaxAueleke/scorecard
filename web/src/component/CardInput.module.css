@@ -30,8 +30,19 @@ input {
   padding :0 5px; 
 }
 button {
+  align-self: center;
+  margin-top : 5px;
   width: 150px;
   height: 50px;
+  background-color: #48cae4;
+  font-size : 1.25rem;
+  border : none;
+  border-radius: 2px;
+  color : white;
+  cursor: pointer;
+}
+button:hover {
+  
 }
 @media (max-width: 320px) {
   .card h1 {

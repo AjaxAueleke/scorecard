@@ -26,12 +26,12 @@ const CardInput = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     console.log(e);
-    axios.post(`http://localhost:5000/score`, stats);
+    axios.post(`/score`, stats);
   };
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("http://localhost:5000/score")
+      .get("/score")
       .then((res) => {
         console.log(res);
         setIsLoading(false);
@@ -147,7 +147,7 @@ const CardInput = () => {
           />
         </label>
         <label htmlFor="batting1">
-          Batting :
+          Batsman(1) :
           <input
             name="batting1"
             id="batting1"
@@ -170,7 +170,7 @@ const CardInput = () => {
           />
         </label>
         <label htmlFor="batting1score">
-          Batting :
+          Batsman(1) runs:
           <input
             name="batting1score"
             id="batting1score"
@@ -196,7 +196,7 @@ const CardInput = () => {
           />
         </label>
         <label htmlFor="batting2">
-          Batting :
+          Batsman(2) :
           <input
             name="batting2"
             id="batting2"
@@ -220,7 +220,7 @@ const CardInput = () => {
         </label>
 
         <label htmlFor="batting2score">
-          Batting :
+          Batsman(2) runs :
           <input
             name="batting2score"
             id="batting2score"
@@ -245,6 +245,76 @@ const CardInput = () => {
             }}
           />
         </label>
+        <label htmlFor="bowling">
+          Bowling:
+          <input
+            name="bowling"
+            id="bowling"
+            type="text"
+            value={stats.bowling.currBowler}
+            onChange={(e) => {
+              setStats((prevState) => {
+                return {
+                  ...prevState,
+                  bowling: {
+                    currBowler: e.target.value,
+                    oversBowled: prevState.bowling.oversBowled,
+                    wicketsTaken: prevState.bowling.wicketsTaken,
+                  },
+                };
+              });
+            }}
+          />
+        </label>
+
+        <label htmlFor="bowlingovers">
+          OversBowled:
+          <input
+            name="bowlingovers"
+            id="bowlingovers"
+            type="number"
+            value={stats.bowling.oversBowled}
+            min="0"
+            step="0.1"
+            onChange={(e) => {
+              setStats((prevState) => {
+                return {
+                  ...prevState,
+                  bowling: {
+                    currBowler: prevState.bowling.currBowler,
+                    oversBowled: e.target.value,
+                    wicketsTaken: prevState.bowling.wicketsTaken,
+                  },
+                };
+              });
+            }}
+          />
+        </label>
+        <label htmlFor="bowlingwickets">
+          Wickets Taken:
+          <input
+            name="bowlingwickets"
+            id="bowlingewickets"
+            type="number"
+            value={stats.bowling.wicketsTaken}
+            min="0"
+            step="1"
+            onChange={(e) => {
+              setStats((prevState) => {
+                return {
+                  ...prevState,
+                  bowling: {
+                    currBowler: prevState.bowling.currBowler,
+                    oversBowled: prevState.bowling.oversBowled,
+                    wicketsTaken: e.target.value,
+                  },
+                };
+              });
+            }}
+          />
+        </label>
+
+        <br />
         <button type="submit" disabled={isLoading}>
           Publish
         </button>

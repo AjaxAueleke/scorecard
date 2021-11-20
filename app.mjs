@@ -51,7 +51,7 @@ const scoreSchema = new Mongoose.Schema({
   bowling: {
     currBowler: String,
     oversBowled: Number,
-    wicketTaken: Number,
+    wicketsTaken: Number,
   },
 });
 
@@ -96,9 +96,10 @@ app.get("/score", (req, res, next) => {
     wickets: scores.wickets,
     runs: scores.runs,
     batting: scores.batting,
-    overs: 50,
+    overs: scores.overs,
     bowling: scores.bowling,
   });
+  console.log(scores.bowling);
 });
 app.post("/score", (req, res, next) => {
   const data = req.body;
